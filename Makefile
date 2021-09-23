@@ -8,7 +8,7 @@ clean:
 # -----------------------------------------
 # Lambda management
 
-LAMBDA_S3_BUCKET := buildkite-aws-stack-lox
+LAMBDA_S3_BUCKET := aurora-buildkite-autoscaler-lambda
 LAMBDA_S3_BUCKET_PATH := /
 
 ifdef BUILDKITE_BUILD_NUMBER
@@ -34,12 +34,11 @@ lambda/handler: lambda/main.go
 	chmod +x lambda/handler
 
 lambda-sync: handler.zip
-	aws s3 sync \
-		--acl public-read \
+	/opt/aurora/bin/aws s3 sync \
 		--exclude '*' --include '*.zip' \
 		. s3://$(LAMBDA_S3_BUCKET)$(LAMBDA_S3_BUCKET_PATH)
 
 lambda-versions:
-	aws s3api head-object \
+	/opt/aurora/bin/aws s3api head-object \
 		--bucket ${LAMBDA_S3_BUCKET} \
 		--key handler.zip --query "VersionId" --output text
