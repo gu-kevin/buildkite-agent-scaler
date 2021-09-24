@@ -28,7 +28,7 @@ EXTRA_REGIONS=(
 )
 
 VERSION=$(buildkite-agent meta-data get "version")
-BASE_BUCKET=buildkite-lambdas
+BASE_BUCKET=aurora-buildkite-lambda
 BUCKET_PATH="buildkite-agent-scaler"
 
 if [[ "${1:-}" == "release" ]] ; then
