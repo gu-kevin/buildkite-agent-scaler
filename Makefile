@@ -27,7 +27,7 @@ handler.zip: lambda/handler
 lambda/handler: lambda/main.go
 	docker run \
 		--volume go-module-cache:/go/pkg/mod \
-		--volume $(PWD):/go/src/github.com/buildkite/buildkite-agent-scaler \
+		--volume $(CURDIR):/go/src/github.com/buildkite/buildkite-agent-scaler \
 		--workdir /go/src/github.com/buildkite/buildkite-agent-scaler \
 		--rm golang:1.15 \
 		go build -ldflags="$(LD_FLAGS)" -o ./lambda/handler ./lambda
