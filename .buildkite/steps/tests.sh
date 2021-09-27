@@ -1,5 +1,7 @@
 #!/bin/bash
 set -euo pipefail
+echo "Get user id"
+echo $UID
 
 GO111MODULE=off go get gotest.tools/gotestsum
 

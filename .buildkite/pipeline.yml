@@ -6,7 +6,7 @@ defaults: &defaults
 steps:
   - <<: *defaults
     name: ":golang:"
-    command: "ls -la /"
+    command: ".buildkite/steps/tests.sh"
     plugins:
       - docker#v3.1.0:
           image: "golang:1.15"
@@ -23,7 +23,7 @@ steps:
           workdir: /go/src/github.com/buildkite/buildkite-agent-scaler
           volumes:
             - "go-module-cache:/go/pkg/mod"
-            - "$(CURDIR):/go/src/github.com/buildkite/buildkite-agent-scaler"
+            - ".:/go/src/github.com/buildkite/buildkite-agent-scaler"
           propagate-uid-gid: true
     artifact_paths:
       - handler.zip
