@@ -6,7 +6,7 @@ defaults: &defaults
 steps:
   - <<: *defaults
     name: ":golang:"
-    command: "ls -la"
+    command: "ls -la /"
     plugins:
       - docker#v3.1.0:
           image: "golang:1.15"
