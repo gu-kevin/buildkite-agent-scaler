@@ -23,7 +23,6 @@ steps:
           workdir: /go/src/github.com/buildkite/buildkite-agent-scaler
           volumes:
             - "go-module-cache:/go/pkg/mod"
-            - ".:/go/src/github.com/buildkite/buildkite-agent-scaler"
           propagate-uid-gid: true
     artifact_paths:
       - handler.zip
