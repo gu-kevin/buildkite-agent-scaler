@@ -16,13 +16,13 @@ steps:
   - wait
   - <<: *defaults
     name: ":lambda:"
-    command: .buildkite/steps/build-lambda.sh
+    command: ".buildkite/steps/build-lambda.sh"
     - docker#v3.1.0:
           image: "golang:1.15"
           workdir: /go/src/github.com/buildkite/buildkite-agent-scaler
           volumes:
             - "go-module-cache:/go/pkg/mod"
-            - ".:/go/src/github.com/buildkite/buildkite-agent-scaler"
+            - "$(CURDIR):/go/src/github.com/buildkite/buildkite-agent-scaler"
           propagate-uid-gid: true
     artifact_paths:
       - handler.zip
