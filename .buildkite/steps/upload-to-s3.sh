@@ -42,9 +42,3 @@ buildkite-agent artifact download handler.zip .
 
 echo "--- :s3: Uploading lambda to ${BASE_BUCKET}/${BUCKET_PATH}/ in ${AWS_DEFAULT_REGION}"
 aws s3 cp handler.zip "s3://${BASE_BUCKET}/${BUCKET_PATH}/handler.zip"
-
-for region in "${EXTRA_REGIONS[@]}" ; do
-	bucket="${BASE_BUCKET}-${region}"
-	echo "--- :s3: Copying files to ${bucket}"
-	aws --region "${region}" s3 cp "s3://${BASE_BUCKET}/${BUCKET_PATH}/handler.zip" "s3://${bucket}/${BUCKET_PATH}/handler.zip"
-done
