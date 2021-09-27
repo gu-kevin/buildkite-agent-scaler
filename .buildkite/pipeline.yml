@@ -19,8 +19,6 @@ steps:
     plugins:
       - docker#v3.1.0:
           image: "golang:1.15"
-          volumes:
-            - "go-module-cache:/go/pkg/mod"
           propagate-uid-gid: true
     artifact_paths:
       - handler.zip
