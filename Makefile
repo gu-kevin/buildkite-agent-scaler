@@ -10,15 +10,14 @@ clean:
 
 LAMBDA_S3_BUCKET := aurora-buildkite-autoscaler-lambda
 LAMBDA_S3_BUCKET_PATH := /
+USER := --user $(shell id -u):$(shell id -g)
 
 ifdef BUILDKITE_BUILD_NUMBER
 	LD_FLAGS := -s -w -X version.Build=$(BUILDKITE_BUILD_NUMBER)
-	USER := --user $(id -u):$(id -g)
 endif
 
 ifndef BUILDKITE_BUILD_NUMBER
 	LD_FLAGS := -s -w
-	USER := ""
 endif
 
 build: handler.zip
