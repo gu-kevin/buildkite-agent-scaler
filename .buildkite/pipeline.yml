@@ -11,7 +11,7 @@ steps:
       - docker#v3.1.0:
           image: "golang:1.15"
           workdir: /go/src/github.com/buildkite/buildkite-agent-scaler
-          user: buildkite-agent:2000
+          propagate-uid-gid: true
 
   - wait
   - <<: *defaults
