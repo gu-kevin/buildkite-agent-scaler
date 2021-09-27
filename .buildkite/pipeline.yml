@@ -17,7 +17,8 @@ steps:
   - <<: *defaults
     name: ":lambda:"
     command: ".buildkite/steps/build-lambda.sh"
-    - docker#v3.1.0:
+    plugins:
+      - docker#v3.1.0:
           image: "golang:1.15"
           workdir: /go/src/github.com/buildkite/buildkite-agent-scaler
           volumes:
