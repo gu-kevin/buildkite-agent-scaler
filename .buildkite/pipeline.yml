@@ -10,7 +10,6 @@ steps:
     plugins:
       - docker#v3.1.0:
           image: "golang:1.15"
-          workdir: /go/src/github.com/buildkite/buildkite-agent-scaler
           propagate-uid-gid: true
 
   - wait
