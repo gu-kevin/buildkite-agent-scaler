@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu
 
-make handler.zip
+go build -ldflags="-s -w -X version.Build=$(BUILDKITE_BUILD_NUMBER)" -o ./lambda/handler ./lambda
 
 # set a version for later steps
 buildkite-agent meta-data set version \
