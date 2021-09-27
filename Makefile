@@ -30,7 +30,7 @@ lambda/handler: lambda/main.go
 		${USER} \
 		--volume $(CURDIR):/go/src/github.com/buildkite/buildkite-agent-scaler \
 		--workdir /go/src/github.com/buildkite/buildkite-agent-scaler \
-		--env GOCACHE1=/tmp
+		--env GOCACHE=/tmp \
 		--rm golang:1.15 \
 		go build -ldflags="$(LD_FLAGS)" -o ./lambda/handler ./lambda
 
