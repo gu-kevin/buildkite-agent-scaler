@@ -19,6 +19,8 @@ steps:
     plugins:
       - docker#v3.1.0:
           image: "golang:1.15"
+          volumes:
+            - "/tmp/build:/tmp/build"
           propagate-uid-gid: true
           propagate-environment: true
     artifact_paths:
