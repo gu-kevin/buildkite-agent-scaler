@@ -28,7 +28,7 @@ EXTRA_REGIONS=(
 )
 
 VERSION=$(buildkite-agent meta-data get "version")
-BASE_BUCKET=buildkite-lambdas
+BASE_BUCKET=aurora-buildkite-lambda
 BUCKET_PATH="buildkite-agent-scaler"
 
 if [[ "${1:-}" == "release" ]] ; then
@@ -41,10 +41,4 @@ echo "~~~ :buildkite: Downloading artifacts"
 buildkite-agent artifact download handler.zip .
 
 echo "--- :s3: Uploading lambda to ${BASE_BUCKET}/${BUCKET_PATH}/ in ${AWS_DEFAULT_REGION}"
-aws s3 cp --acl public-read handler.zip "s3://${BASE_BUCKET}/${BUCKET_PATH}/handler.zip"
-
-for region in "${EXTRA_REGIONS[@]}" ; do
-	bucket="${BASE_BUCKET}-${region}"
-	echo "--- :s3: Copying files to ${bucket}"
-	aws --region "${region}" s3 cp --acl public-read "s3://${BASE_BUCKET}/${BUCKET_PATH}/handler.zip" "s3://${bucket}/${BUCKET_PATH}/handler.zip"
-done
+aws s3 cp handler.zip "s3://${BASE_BUCKET}/${BUCKET_PATH}/handler.zip"
