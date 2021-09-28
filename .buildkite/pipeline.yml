@@ -1,25 +1,34 @@
+defaults: &defaults
+  timeout_in_minutes: 60
+  agents:
+    queue: "ci-non-gpu-basic"
+
 steps:
-  - name: ":golang:"
+  - <<: *defaults
+    name: ":golang:"
     command: ".buildkite/steps/tests.sh"
     plugins:
       - docker#v3.1.0:
           image: "golang:1.15"
-          workdir: /go/src/github.com/buildkite/buildkite-agent-scaler
+          propagate-uid-gid: true
 
   - wait
-  - name: ":lambda:"
-    command: .buildkite/steps/build-lambda.sh
+  - <<: *defaults
+    name: ":lambda:"
+    command: ".buildkite/steps/build-lambda.sh"
     artifact_paths:
       - handler.zip
 
   - wait
-  - label: ":s3:"
+  - <<: *defaults
+    label: ":s3:"
     command: ".buildkite/steps/upload-to-s3.sh"
     agents:
-      queue: "deploy"
+      queue: "ci-admin"
 
   - wait
-  - name: ":pipeline:"
+  - <<: *defaults
+    name: ":pipeline:"
     command: .buildkite/steps/upload-release-steps.sh
     branches: master
 
