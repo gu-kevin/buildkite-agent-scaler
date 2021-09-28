@@ -5,6 +5,6 @@ steps:
     command: ".buildkite/steps/release-version.sh"
     branches: master
     agents:
-      queue: "deploy"
+      queue: "ci-admin"
     concurrency: 1
     concurrency_group: 'release'
