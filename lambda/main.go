@@ -42,6 +42,8 @@ func Handler(ctx context.Context, evt json.RawMessage) (string, error) {
 		scaleOutCooldownPeriod time.Duration
 		scaleOutFactor         float64
 
+		scaleOnlyAfterAllEvent bool
+
 		includeWaiting bool
 		err            error
 	)
@@ -71,6 +73,12 @@ func Handler(ctx context.Context, evt json.RawMessage) (string, error) {
 			return "", err
 		}
 		scaleInFactor = math.Abs(scaleInFactor)
+	}
+
+	if v := os.Getenv(`SCALE_ONLY_AFTER_ALL_EVENT`); v != "" {
+		if v == "true" || v == "1" {
+			scaleOnlyAfterAllEvent = true
+		}
 	}
 
 	if v := os.Getenv(`SCALE_OUT_COOLDOWN_PERIOD`); v != "" {
@@ -155,6 +163,17 @@ func Handler(ctx context.Context, evt json.RawMessage) (string, error) {
 			if output != nil {
 				lastScaleOut = *output.StartTime
 			}
+
+			// Set latest event as the last scale in or out event
+			log.Printf("Last Scale In Event %s", lastScaleIn.String())
+			log.Printf("Last Scale Out Event %s", lastScaleOut.String())
+			if scaleOnlyAfterAllEvent == true && lastScaleIn.Before(lastScaleOut) {
+				lastScaleIn = lastScaleOut
+			}
+			if scaleOnlyAfterAllEvent == true && lastScaleOut.Before(lastScaleIn) {
+				lastScaleOut = lastScaleIn
+			}
+
 			params := scaler.Params{
 				BuildkiteQueue:       mustGetEnv(`BUILDKITE_QUEUE`),
 				AutoScalingGroupName: mustGetEnv(`ASG_NAME`),
